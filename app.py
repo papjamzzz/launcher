@@ -1,5 +1,5 @@
-import os, socket, subprocess, signal
-from flask import Flask, render_template, jsonify
+import os, socket, subprocess, signal, threading, time
+from flask import Flask, render_template, jsonify, request
 import psutil
 
 app = Flask(__name__)
@@ -49,6 +49,12 @@ APPS = {
 
 _procs = {}  # app_key → Popen
 
+# Auto-launch state
+_auto_tracktracks = True   # on by default — that's the point
+_ableton_was_open = False
+
+
+# ── helpers ───────────────────────────────────────────────────────────────────
 
 def port_open(port):
     try:
@@ -72,12 +78,58 @@ def proc_running(match):
     return False
 
 
+def ableton_open():
+    for p in psutil.process_iter(['name']):
+        try:
+            if 'Ableton' in (p.info['name'] or ''):
+                return True
+        except Exception:
+            pass
+    return False
+
+
 def is_running(key):
     cfg = APPS[key]
     if cfg['type'] == 'web':
         return port_open(cfg['port'])
     return proc_running(cfg['match'])
 
+
+def _do_launch(key):
+    cfg = APPS[key]
+    if is_running(key):
+        return
+    try:
+        env = {**os.environ, 'PYTHONPATH': ''}
+        p = subprocess.Popen(cfg['cmd'], cwd=cfg['cwd'], env=env,
+                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        _procs[key] = p
+        if cfg['type'] == 'web' and cfg['url']:
+            subprocess.Popen(['bash', '-c', f'sleep 3 && open "{cfg["url"]}"'])
+    except Exception:
+        pass
+
+
+# ── Ableton watcher thread ────────────────────────────────────────────────────
+
+def _ableton_watcher():
+    global _ableton_was_open
+    while True:
+        time.sleep(3)
+        try:
+            now_open = ableton_open()
+            if now_open and not _ableton_was_open and _auto_tracktracks:
+                # Ableton just opened — launch TrackTracks viewer
+                _do_launch('tracktracks')
+            _ableton_was_open = now_open
+        except Exception:
+            pass
+
+
+threading.Thread(target=_ableton_watcher, daemon=True).start()
+
+
+# ── routes ────────────────────────────────────────────────────────────────────
 
 @app.route('/')
 def index():
@@ -86,26 +138,26 @@ def index():
 
 @app.route('/api/status')
 def status():
-    return jsonify({k: is_running(k) for k in APPS})
+    return jsonify({
+        **{k: is_running(k) for k in APPS},
+        'ableton': ableton_open(),
+        'auto_tracktracks': _auto_tracktracks,
+    })
+
+
+@app.route('/api/auto_tracktracks', methods=['POST'])
+def set_auto():
+    global _auto_tracktracks
+    _auto_tracktracks = request.json.get('enabled', True)
+    return jsonify({'ok': True, 'auto_tracktracks': _auto_tracktracks})
 
 
 @app.route('/launch/<key>', methods=['POST'])
 def launch(key):
     if key not in APPS:
         return jsonify({'ok': False, 'error': 'unknown app'}), 404
-    cfg = APPS[key]
-    if is_running(key):
-        return jsonify({'ok': True, 'already': True})
-    try:
-        env = {**os.environ, 'PYTHONPATH': ''}
-        p = subprocess.Popen(cfg['cmd'], cwd=cfg['cwd'], env=env,
-                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        _procs[key] = p
-        if cfg['type'] == 'web' and cfg['url']:
-            subprocess.Popen(['bash', '-c', f'sleep 3 && open "{cfg["url"]}"'])
-        return jsonify({'ok': True})
-    except Exception as e:
-        return jsonify({'ok': False, 'error': str(e)}), 500
+    _do_launch(key)
+    return jsonify({'ok': True})
 
 
 @app.route('/stop/<key>', methods=['POST'])
@@ -113,13 +165,11 @@ def stop(key):
     if key not in APPS:
         return jsonify({'ok': False, 'error': 'unknown app'}), 404
     cfg = APPS[key]
-    # Kill by process match
     killed = False
-    match = cfg['match']
     for p in psutil.process_iter(['cmdline', 'pid']):
         try:
             cmd = ' '.join(p.info['cmdline'] or [])
-            if match in cmd:
+            if cfg['match'] in cmd:
                 os.kill(p.info['pid'], signal.SIGTERM)
                 killed = True
         except Exception:

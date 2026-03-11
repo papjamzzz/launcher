@@ -73,6 +73,65 @@
     margin-top: 2px;
   }
 
+  .ableton-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 12px;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    width: fit-content;
+  }
+  .ableton-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .ableton-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--muted);
+    transition: background 0.4s;
+    flex-shrink: 0;
+  }
+  .ableton-dot.open { background: var(--green); box-shadow: 0 0 6px var(--green); }
+
+  .auto-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    cursor: pointer;
+    user-select: none;
+  }
+  .toggle-switch {
+    position: relative;
+    width: 32px; height: 18px;
+    background: var(--border);
+    border-radius: 9px;
+    transition: background 0.2s;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .toggle-switch.on { background: var(--green); }
+  .toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform 0.2s;
+  }
+  .toggle-switch.on::after { transform: translateX(14px); }
+
   main {
     flex: 1;
     padding: 40px;
@@ -268,6 +327,18 @@
     <span class="brand-second">tools</span>
   </div>
   <div class="brand-sub">App Launcher</div>
+
+  <div class="ableton-bar">
+    <div class="ableton-status">
+      <span class="ableton-dot" id="ableton-dot"></span>
+      <span id="ableton-label">Ableton — checking…</span>
+    </div>
+    <div style="width:1px;height:14px;background:var(--border);"></div>
+    <label class="auto-toggle" onclick="toggleAuto()">
+      <div class="toggle-switch" id="auto-toggle-sw"></div>
+      <span>Auto-launch TrackTracks when Ableton opens</span>
+    </label>
+  </div>
 </header>
 
 <main>
@@ -397,10 +468,37 @@ async function poll() {
   try {
     const r = await fetch('/api/status');
     const data = await r.json();
-    for (const [key, running] of Object.entries(data)) setStatus(key, running);
+    for (const [key, running] of Object.entries(data)) {
+      if (key === 'ableton' || key === 'auto_tracktracks') continue;
+      setStatus(key, running);
+    }
+    // Ableton indicator
+    const dot = document.getElementById('ableton-dot');
+    const lbl = document.getElementById('ableton-label');
+    if (data.ableton) {
+      dot.classList.add('open');
+      lbl.textContent = 'Ableton — open';
+    } else {
+      dot.classList.remove('open');
+      lbl.textContent = 'Ableton — not running';
+    }
+    // Auto-toggle state
+    const sw = document.getElementById('auto-toggle-sw');
+    sw.classList.toggle('on', data.auto_tracktracks);
     document.getElementById('last-update').textContent =
       'Updated ' + new Date().toLocaleTimeString();
   } catch (e) {}
+}
+
+async function toggleAuto() {
+  const sw = document.getElementById('auto-toggle-sw');
+  const nowOn = sw.classList.contains('on');
+  await fetch('/api/auto_tracktracks', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({enabled: !nowOn})
+  });
+  poll();
 }
 
 async function launch(key) {
