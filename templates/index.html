@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>papjamzzz — launcher</title>
+<style>
+  :root {
+    --bg:      #08090d;
+    --surface: #0f1117;
+    --border:  #1e2030;
+    --text:    #e2e8f0;
+    --muted:   #64748b;
+    --green:   #00d595;
+    --red:     #ef4444;
+    --blue:    #4fc3f7;
+    --amber:   #ffb74d;
+    --purple:  #c678dd;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  header {
+    padding: 28px 40px 24px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(0,213,149,0.06) 30%,
+      rgba(196,120,221,0.05) 60%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  .brand {
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-first { color: #fff; }
+  .brand-second {
+    background: linear-gradient(90deg, var(--green) 0%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .brand-sub {
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  main {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: #2d3148; }
+  .card.running { border-color: rgba(0,213,149,0.25); }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .card-meta { flex: 1; }
+  .card-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .card-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .status-badge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    transition: all 0.3s;
+  }
+  .status-badge.running {
+    color: var(--green);
+    border-color: rgba(0,213,149,0.3);
+    background: rgba(0,213,149,0.06);
+  }
+  .status-badge.stopped {
+    color: var(--muted);
+    border-color: var(--border);
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+  .running .dot { box-shadow: 0 0 6px currentColor; }
+
+  .card-type {
+    font-size: 0.67rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .card-type.web   { color: var(--blue);   border-color: rgba(79,195,247,0.2);  background: rgba(79,195,247,0.05); }
+  .card-type.gui   { color: var(--purple); border-color: rgba(198,120,221,0.2); background: rgba(198,120,221,0.05); }
+  .card-type.cli   { color: var(--amber);  border-color: rgba(255,183,77,0.2);  background: rgba(255,183,77,0.05); }
+
+  .card-url {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-family: monospace;
+    letter-spacing: 0.02em;
+  }
+
+  .card-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+  }
+
+  .btn {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.02em;
+    background: transparent;
+    color: var(--text);
+  }
+
+  .btn-launch {
+    background: var(--green);
+    border-color: var(--green);
+    color: #000;
+  }
+  .btn-launch:hover { opacity: 0.85; }
+  .btn-launch:disabled {
+    background: var(--border);
+    border-color: var(--border);
+    color: var(--muted);
+    cursor: not-allowed;
+  }
+
+  .btn-stop {
+    flex: 0;
+    padding: 10px 14px;
+    color: var(--muted);
+  }
+  .btn-stop:hover { border-color: var(--red); color: var(--red); }
+
+  .btn-open {
+    flex: 0;
+    padding: 10px 14px;
+    color: var(--blue);
+    border-color: rgba(79,195,247,0.2);
+  }
+  .btn-open:hover { background: rgba(79,195,247,0.08); }
+
+  .btn.loading {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  footer {
+    padding: 20px 40px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-text { font-size: 0.72rem; color: var(--muted); }
+  .poll-indicator {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    opacity: 0.5;
+    animation: pulse 2s infinite;
+    display: inline-block;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.9; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <span class="brand-first">papjamzzz</span>
+    <span style="color:var(--border)">·</span>
+    <span class="brand-second">tools</span>
+  </div>
+  <div class="brand-sub">App Launcher</div>
+</header>
+
+<main>
+  <div>
+    <div class="section-label">Web Dashboards</div>
+    <div class="grid" id="grid-web">
+
+      <div class="card" id="card-kalshi" data-key="kalshi" data-type="web" data-url="http://localhost:5555">
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-name">kalshi konnektor</div>
+            <div class="card-desc">Prediction market edge detector · 4-signal scoring engine</div>
+          </div>
+          <div class="status-badge stopped" id="badge-kalshi">
+            <span class="dot"></span><span>Stopped</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="card-type web">Web</span>
+          <span class="card-url">localhost:5555</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-launch" id="launch-kalshi" onclick="launch('kalshi')">Launch</button>
+          <button class="btn btn-open" id="open-kalshi" onclick="openApp('kalshi')" style="display:none" title="Open in browser">↗</button>
+          <button class="btn btn-stop" onclick="stop('kalshi')" title="Stop">✕</button>
+        </div>
+      </div>
+
+      <div class="card" id="card-streamfader" data-key="streamfader" data-type="web" data-url="http://localhost:5556">
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-name">StreamFader</div>
+            <div class="card-desc">Streaming content ranker · critic × audience crossfader</div>
+          </div>
+          <div class="status-badge stopped" id="badge-streamfader">
+            <span class="dot"></span><span>Stopped</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="card-type web">Web</span>
+          <span class="card-url">localhost:5556</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-launch" id="launch-streamfader" onclick="launch('streamfader')">Launch</button>
+          <button class="btn btn-open" id="open-streamfader" onclick="openApp('streamfader')" style="display:none" title="Open in browser">↗</button>
+          <button class="btn btn-stop" onclick="stop('streamfader')" title="Stop">✕</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div>
+    <div class="section-label">Native Apps</div>
+    <div class="grid" id="grid-native">
+
+      <div class="card" id="card-tracktracks" data-key="tracktracks" data-type="gui">
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-name">TrackTracks</div>
+            <div class="card-desc">Per-track CPU monitor for Ableton Live · PyQt6 desktop app</div>
+          </div>
+          <div class="status-badge stopped" id="badge-tracktracks">
+            <span class="dot"></span><span>Stopped</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="card-type gui">GUI</span>
+          <span class="card-url" style="color:var(--muted);font-size:0.72rem">PyQt6 desktop window</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-launch" id="launch-tracktracks" onclick="launch('tracktracks')">Launch</button>
+          <button class="btn btn-stop" onclick="stop('tracktracks')" title="Stop">✕</button>
+        </div>
+      </div>
+
+      <div class="card" id="card-dawdoctor" data-key="dawdoctor" data-type="cli">
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-name">DAW Doctor</div>
+            <div class="card-desc">Ableton diagnostics · CPU, latency, dropout scanner</div>
+          </div>
+          <div class="status-badge stopped" id="badge-dawdoctor">
+            <span class="dot"></span><span>Stopped</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="card-type cli">CLI</span>
+          <span class="card-url" style="color:var(--muted);font-size:0.72rem">Opens in Terminal</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-launch" id="launch-dawdoctor" onclick="launch('dawdoctor')">Launch</button>
+          <button class="btn btn-stop" onclick="stop('dawdoctor')" title="Stop">✕</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span class="footer-text"><span class="poll-indicator"></span>Status updates every 5s</span>
+  <span class="footer-text" id="last-update">—</span>
+</footer>
+
+<script>
+const URLS = {
+  kalshi: 'http://localhost:5555',
+  streamfader: 'http://localhost:5556',
+};
+
+function setStatus(key, running) {
+  const badge = document.getElementById('badge-' + key);
+  const card  = document.getElementById('card-' + key);
+  const btn   = document.getElementById('launch-' + key);
+  const openBtn = document.getElementById('open-' + key);
+
+  badge.className = 'status-badge ' + (running ? 'running' : 'stopped');
+  badge.innerHTML = `<span class="dot"></span><span>${running ? 'Running' : 'Stopped'}</span>`;
+  card.classList.toggle('running', running);
+
+  if (btn) btn.disabled = running;
+  if (openBtn) openBtn.style.display = running ? 'block' : 'none';
+}
+
+async function poll() {
+  try {
+    const r = await fetch('/api/status');
+    const data = await r.json();
+    for (const [key, running] of Object.entries(data)) setStatus(key, running);
+    document.getElementById('last-update').textContent =
+      'Updated ' + new Date().toLocaleTimeString();
+  } catch (e) {}
+}
+
+async function launch(key) {
+  const btn = document.getElementById('launch-' + key);
+  btn.classList.add('loading');
+  btn.textContent = 'Launching…';
+  try {
+    const r = await fetch('/launch/' + key, {method: 'POST'});
+    const d = await r.json();
+    if (!d.ok) { btn.textContent = 'Error'; setTimeout(() => { btn.textContent = 'Launch'; btn.classList.remove('loading'); }, 2000); return; }
+    setTimeout(poll, 3500);
+  } catch (e) {}
+  setTimeout(() => { btn.textContent = 'Launch'; btn.classList.remove('loading'); }, 4000);
+}
+
+async function stop(key) {
+  await fetch('/stop/' + key, {method: 'POST'});
+  setTimeout(poll, 800);
+}
+
+function openApp(key) {
+  if (URLS[key]) window.open(URLS[key], '_blank');
+}
+
+poll();
+setInterval(poll, 5000);
+</script>
+</body>
+</html>
