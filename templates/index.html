@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>papjamzzz — launcher</title>
+<link rel="icon" href="/static/favicon.png" type="image/png"/>
 <style>
   :root {
     --bg:      #08090d;
@@ -316,6 +317,35 @@
     0%, 100% { opacity: 0.3; }
     50% { opacity: 0.9; }
   }
+
+  /* ── Flagship 5i card ── */
+  .card.flagship {
+    border-color: rgba(0,200,220,0.30);
+    background: linear-gradient(135deg, #0f1117 60%, rgba(0,180,210,0.06) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .card.flagship::before {
+    content: 'FLAGSHIP';
+    position: absolute;
+    top: 14px; right: 14px;
+    font-size: 0.58rem; font-weight: 700; letter-spacing: 0.14em;
+    color: rgba(0,200,220,0.60);
+    border: 1px solid rgba(0,200,220,0.25);
+    border-radius: 4px; padding: 2px 7px;
+  }
+  .card.flagship:hover { border-color: rgba(0,200,220,0.50); }
+  .card.flagship.running { border-color: rgba(0,213,149,0.35); }
+
+  .card-logo {
+    width: 44px; height: 44px; border-radius: 10px;
+    object-fit: cover; object-position: center 47%;
+    flex-shrink: 0;
+    box-shadow: 0 0 14px rgba(0,200,220,0.30);
+  }
+  .card-header-inner {
+    display: flex; align-items: flex-start; gap: 12px; flex: 1;
+  }
 </style>
 </head>
 <body>
@@ -345,6 +375,30 @@
   <div>
     <div class="section-label">Web Dashboards</div>
     <div class="grid" id="grid-web">
+
+      <div class="card flagship" id="card-5i" data-key="5i" data-type="web" data-url="http://localhost:5562">
+        <div class="card-header">
+          <div class="card-header-inner">
+            <img src="/static/5i-logo.png" class="card-logo" alt="5i"/>
+            <div class="card-meta">
+              <div class="card-name">5i — Five Intelligences</div>
+              <div class="card-desc">Parallel AI synthesis engine · GPT · Claude · Gemini · Grok · Mistral</div>
+            </div>
+          </div>
+          <div class="status-badge stopped" id="badge-5i">
+            <span class="dot"></span><span>Stopped</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="card-type web">Web</span>
+          <span class="card-url">localhost:5562</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-launch" id="launch-5i" onclick="launch('5i')">Launch</button>
+          <button class="btn btn-open" id="open-5i" onclick="openApp('5i')" style="display:none" title="Open in browser">↗</button>
+          <button class="btn btn-stop" onclick="stop('5i')" title="Stop">✕</button>
+        </div>
+      </div>
 
       <div class="card" id="card-kalshi" data-key="kalshi" data-type="web" data-url="http://localhost:5555">
         <div class="card-header">
