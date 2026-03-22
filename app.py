@@ -5,6 +5,17 @@ import psutil
 app = Flask(__name__)
 
 APPS = {
+    '5i': {
+        'name': '5i',
+        'desc': 'Parallel AI synthesis engine · 5 models · one verdict',
+        'port': 5562,
+        'url': 'http://localhost:5562',
+        'cwd': os.path.expanduser('~/5i'),
+        'cmd': ['python3', 'app.py'],
+        'type': 'web',
+        'match': '5i/app.py',
+        'flagship': True,
+    },
     'kalshi': {
         'name': 'kalshi konnektor',
         'desc': 'Prediction market edge detector',
