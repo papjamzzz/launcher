@@ -497,6 +497,27 @@
         </div>
       </div>
 
+      <div class="card" id="card-dkkonnektor" data-key="dkkonnektor" data-type="web" data-url="http://localhost:5563">
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-name">DK Konnektor</div>
+            <div class="card-desc">DraftKings golf DFS edge detector · odds divergence, course fit, ownership signals</div>
+          </div>
+          <div class="status-badge stopped" id="badge-dkkonnektor">
+            <span class="dot"></span><span>Stopped</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="card-type web">Web</span>
+          <span class="card-url">localhost:5563</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-launch" id="launch-dkkonnektor" onclick="launch('dkkonnektor')">Launch</button>
+          <button class="btn btn-open" id="open-dkkonnektor" onclick="openApp('dkkonnektor')" style="display:none" title="Open in browser">↗</button>
+          <button class="btn btn-stop" onclick="stop('dkkonnektor')" title="Stop">✕</button>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -557,6 +578,7 @@
 const URLS = {
   kalshi: 'http://localhost:5555',
   streamfader: 'http://localhost:5556',
+  dkkonnektor: 'http://localhost:5563',
 };
 
 function setStatus(key, running) {

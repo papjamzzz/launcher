@@ -36,6 +36,16 @@ APPS = {
         'type': 'web',
         'match': 'streamfader/app.py',
     },
+    'dkkonnektor': {
+        'name': 'DK Konnektor',
+        'desc': 'DraftKings golf DFS edge detector',
+        'port': 5563,
+        'url': 'http://localhost:5563',
+        'cwd': os.path.expanduser('~/dk-konnektor'),
+        'cmd': ['python3', 'app.py'],
+        'type': 'web',
+        'match': 'dk-konnektor/app.py',
+    },
     'tracktracks': {
         'name': 'TrackTracks',
         'desc': 'Per-track CPU monitor for Ableton Live',
