@@ -431,7 +431,7 @@
     <div class="section-label">Web Dashboards</div>
     <div class="grid" id="grid-web">
 
-      <div class="card flagship" id="card-5i" data-key="5i" data-type="web" data-url="http://localhost:5562">
+      <div class="card flagship running" id="card-5i" data-key="5i" data-type="external" data-url="https://ocra10vb.up.railway.app">
         <div class="card-header">
           <div class="card-header-inner">
             <img src="/static/5i-logo.png" class="card-logo" alt="5i"/>
@@ -440,18 +440,16 @@
               <div class="card-desc">Parallel AI synthesis engine · GPT · Claude · Gemini · Grok · Mistral</div>
             </div>
           </div>
-          <div class="status-badge stopped" id="badge-5i">
-            <span class="dot"></span><span>Stopped</span>
+          <div class="status-badge running" id="badge-5i">
+            <span class="dot"></span><span>Live on Railway</span>
           </div>
         </div>
         <div style="display:flex;gap:8px;align-items:center">
-          <span class="card-type web">Web</span>
-          <span class="card-url">localhost:5562</span>
+          <span class="card-type web">Railway</span>
+          <span class="card-url">ocra10vb.up.railway.app</span>
         </div>
         <div class="card-actions">
-          <button class="btn btn-launch" id="launch-5i" onclick="launch('5i')">Launch</button>
-          <button class="btn btn-open" id="open-5i" onclick="openApp('5i')" style="display:none" title="Open in browser">↗</button>
-          <button class="btn btn-stop" onclick="stop('5i')" title="Stop">✕</button>
+          <button class="btn btn-launch" style="background:linear-gradient(90deg,#00c8dc,#00d595);border-color:transparent;color:#000;" onclick="window.open('https://ocra10vb.up.railway.app','_blank')">Open 5i ↗</button>
         </div>
       </div>
 
