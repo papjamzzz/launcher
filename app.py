@@ -36,6 +36,16 @@ APPS = {
         'type': 'web',
         'match': 'streamfader/app.py',
     },
+    'empathybot': {
+        'name': 'EmpathyBot',
+        'desc': 'Empathetic AI chat for grief, illness, and trauma support',
+        'port': 5564,
+        'url': 'http://localhost:5564',
+        'cwd': os.path.expanduser('~/empathybot'),
+        'cmd': ['python3', 'app.py'],
+        'type': 'web',
+        'match': 'empathybot/app.py',
+    },
     'dkkonnektor': {
         'name': 'DK Konnektor',
         'desc': 'DraftKings golf DFS edge detector',
