@@ -495,6 +495,30 @@
         </div>
       </div>
 
+      <div class="card" id="card-empathybot" data-key="empathybot" data-type="web" data-url="http://localhost:5564" style="border-color:rgba(183,148,244,0.2);background:linear-gradient(135deg,#0f1117 60%,rgba(183,148,244,0.05) 100%);">
+        <div class="card-header">
+          <div class="card-header-inner">
+            <img src="/static/empathybot-logo.png" class="card-logo" alt="EmpathyBot" style="box-shadow:0 0 14px rgba(183,148,244,0.35);"/>
+            <div class="card-meta">
+              <div class="card-name">EmpathyBot</div>
+              <div class="card-desc">Empathetic AI chat · grief · illness · trauma · 12 support types</div>
+            </div>
+          </div>
+          <div class="status-badge stopped" id="badge-empathybot">
+            <span class="dot"></span><span>Stopped</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="card-type web">Web</span>
+          <span class="card-url">localhost:5564</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-launch" id="launch-empathybot" onclick="launch('empathybot')" style="background:#b794f4;border-color:#b794f4;color:#0a0012;">Launch</button>
+          <button class="btn btn-open" id="open-empathybot" onclick="openApp('empathybot')" style="display:none;color:#b794f4;border-color:rgba(183,148,244,0.3);" title="Open in browser">↗</button>
+          <button class="btn btn-stop" onclick="stop('empathybot')" title="Stop">✕</button>
+        </div>
+      </div>
+
       <div class="card" id="card-dkkonnektor" data-key="dkkonnektor" data-type="web" data-url="http://localhost:5563">
         <div class="card-header">
           <div class="card-meta">
@@ -576,6 +600,7 @@
 const URLS = {
   kalshi: 'http://localhost:5555',
   streamfader: 'http://localhost:5556',
+  empathybot: 'http://localhost:5564',
   dkkonnektor: 'http://localhost:5563',
 };
 
