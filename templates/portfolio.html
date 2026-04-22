@@ -216,6 +216,22 @@
     color: #07080d;
   }
 
+  /* Always-visible copyable URL */
+  .card-url {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.28);
+    user-select: all;
+    cursor: text;
+    z-index: 10;
+    transition: color 0.2s;
+  }
+  .card:hover .card-url { color: rgba(255,255,255,0.55); }
+
   /* Accent color per card */
   .card-sf   { --accent: #00d595; }
   .card-5i   { --accent: #b57bee; }
@@ -237,6 +253,7 @@
 
     <!-- StreamFader -->
     <div class="card card-sf" onclick="window.open('http://127.0.0.1:5556','_blank')">
+      <div class="card-url">127.0.0.1:5556</div>
       <img class="card-img" src="/static/screenshots/sf.png" alt="StreamFader">
       <div class="card-overlay"></div>
       <div class="card-info">
@@ -250,6 +267,7 @@
 
     <!-- 5i -->
     <div class="card card-5i" onclick="window.open('http://127.0.0.1:5562','_blank')">
+      <div class="card-url">127.0.0.1:5562</div>
       <img class="card-img" src="/static/screenshots/5i.jpg" alt="5i">
       <div class="card-overlay"></div>
       <div class="card-info">
@@ -263,6 +281,7 @@
 
     <!-- Kode Keeper -->
     <div class="card card-kk" onclick="window.open('http://127.0.0.1:5560','_blank')">
+      <div class="card-url">127.0.0.1:5560</div>
       <img class="card-img" src="/static/screenshots/kodekeeper.png" alt="Kode Keeper">
       <div class="card-overlay"></div>
       <div class="card-info">
@@ -276,6 +295,7 @@
 
     <!-- Memoir -->
     <div class="card card-mem" onclick="window.open('http://127.0.0.1:5565','_blank')">
+      <div class="card-url">127.0.0.1:5565</div>
       <img class="card-img" src="/static/screenshots/memoir.png" alt="Memoir">
       <div class="card-overlay"></div>
       <div class="card-info">
