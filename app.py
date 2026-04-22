@@ -166,6 +166,10 @@ threading.Thread(target=_ableton_watcher, daemon=True).start()
 def index():
     return render_template('index.html', apps=APPS)
 
+@app.route('/portfolio')
+def portfolio():
+    return render_template('portfolio.html')
+
 
 @app.route('/api/status')
 def status():

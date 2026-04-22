@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creative Konsoles — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #07080d;
+    --surface:  #0d0f18;
+    --border:   #1a1d2e;
+    --text:     #e2e6f0;
+    --muted:    #5a6080;
+    --green:    #00d595;
+    --purple:   #b57bee;
+    --amber:    #f0b84a;
+    --blue:     #4fc3f7;
+    --red:      #f06292;
+  }
+
+  html, body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 56px 60px 48px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,213,149,0.3), rgba(181,123,238,0.2), transparent);
+  }
+
+  .header-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+
+  .header-title {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .header-title span {
+    color: var(--green);
+    font-weight: 500;
+  }
+
+  .header-sub {
+    font-size: 15px;
+    color: var(--muted);
+    font-weight: 400;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+
+  /* ── GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border-top: none;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--surface);
+    padding: 48px 52px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.25s;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+
+  .card:hover { background: #0f1220; }
+  .card:hover::before { transform: scaleX(1); }
+
+  .card-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  .card-icon {
+    font-size: 28px;
+    margin-bottom: 20px;
+    line-height: 1;
+  }
+
+  .card-name {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+    opacity: 0.85;
+  }
+
+  .card-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(226,230,240,0.65);
+    font-weight: 400;
+    flex: 1;
+    margin-bottom: 36px;
+  }
+
+  .card-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 9px 18px;
+    border: 1px solid;
+    border-radius: 2px;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: transparent;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .btn-ghost {
+    color: var(--muted);
+    border-color: var(--border);
+    background: transparent;
+  }
+
+  .btn-ghost:hover {
+    color: var(--text);
+    border-color: var(--muted);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 32px 60px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-left {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+  }
+
+  .footer-right a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--green);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .footer-right a:hover { opacity: 1; }
+
+  @media (max-width: 600px) {
+    header { padding: 40px 28px 36px; }
+    .card  { padding: 36px 28px; }
+    footer { padding: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-eyebrow">Creative Konsoles · papjamzzz</div>
+  <h1 class="header-title">Built to <span>think</span>,<br>sound, and remember.</h1>
+  <p class="header-sub">Four tools at the intersection of AI, music, and human experience.</p>
+</header>
+
+<div class="grid">
+
+  <!-- 5i -->
+  <div class="card" style="--accent: var(--purple)">
+    <div class="card-number">01 / 04</div>
+    <div class="card-icon">⬡</div>
+    <div class="card-name">5i</div>
+    <div class="card-tag">AI Synthesis Engine</div>
+    <p class="card-desc">One prompt through five AI models simultaneously — GPT, Claude, Gemini, Grok, and Mistral — synthesized into a single, weighted verdict. Built for decisions that matter.</p>
+    <div class="card-links">
+      <a class="btn btn-primary" href="https://github.com/papjamzzz/5i" target="_blank">GitHub →</a>
+    </div>
+  </div>
+
+  <!-- StreamFader -->
+  <div class="card" style="--accent: var(--green)">
+    <div class="card-number">02 / 04</div>
+    <div class="card-icon">◈</div>
+    <div class="card-name">StreamFader</div>
+    <div class="card-tag">Content Discovery</div>
+    <p class="card-desc">A DJ-style fader that blends critic scores with audience ratings in real time. Slide toward the crowd or the critics — find exactly what to watch tonight, your way.</p>
+    <div class="card-links">
+      <a class="btn btn-primary" href="https://github.com/papjamzzz/Stream-Fader" target="_blank">GitHub →</a>
+    </div>
+  </div>
+
+  <!-- Memoir -->
+  <div class="card" style="--accent: var(--amber)">
+    <div class="card-number">03 / 04</div>
+    <div class="card-icon">◎</div>
+    <div class="card-name">Memoir</div>
+    <div class="card-tag">Voice · Memory · AI</div>
+    <p class="card-desc">Speak your memories into a microphone. Claude listens, transcribes, and weaves them into structured, living chapters. Your story told in your voice — preserved in code.</p>
+    <div class="card-links">
+      <a class="btn btn-primary" href="https://github.com/papjamzzz" target="_blank">GitHub →</a>
+    </div>
+  </div>
+
+  <!-- Kode Keeper -->
+  <div class="card" style="--accent: var(--blue)">
+    <div class="card-number">04 / 04</div>
+    <div class="card-icon">◻</div>
+    <div class="card-name">Kode Keeper</div>
+    <div class="card-tag">Developer Tooling</div>
+    <p class="card-desc">A hardware synthesizer-style mission control dashboard for Claude Code. Oscilloscope, VU meters, cost tracker, and git rack — everything a session needs at a glance.</p>
+    <div class="card-links">
+      <a class="btn btn-primary" href="https://github.com/papjamzzz/kodekeeper" target="_blank">GitHub →</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-left">© 2026 Creative Konsoles</div>
+  <div class="footer-right">
+    <a href="https://github.com/papjamzzz" target="_blank">github.com/papjamzzz</a>
+  </div>
+</footer>
+
+</body>
+</html>
