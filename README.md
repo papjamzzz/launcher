@@ -33,6 +33,8 @@ The central launchpad for the entire Creative Konsoles stack. Start, stop, and m
 | [Kode Keeper](https://github.com/papjamzzz/kodekeeper) | Claude Code mission control | 5560 |
 | [Key Watcher](https://github.com/papjamzzz/key-watcher) | API key health monitor | 5563 |
 | [WithYou](https://github.com/papjamzzz/empathybot) | AI voice companion — 12 support types | 5564 |
+| [Grail](https://github.com/papjamzzz/grail) | Biohacking dashboard — 40 biomarker orbs | 5566 |
+| [Memoir](https://github.com/papjamzzz/memoir) | Voice-to-story AI journaling | 5568 |
 
 ---
 
