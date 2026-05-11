@@ -3,9 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Creative Konsoles — Portfolio</title>
+<title>Creative Konsoles — StreamFader, 5i, Kode Keeper, Memoir | papjamzzz</title>
+<meta name="description" content="Creative Konsoles by papjamzzz: StreamFader streaming content ranker with DJ-style critic/audience fader, 5i parallel AI synthesis engine, Kode Keeper Claude Code dashboard, and Memoir voice AI journaling.">
+<meta name="keywords" content="StreamFader, streaming content ranker, movie recommendations, Netflix, critic score, audience score, 5i AI, parallel AI, Kode Keeper, Claude Code dashboard, Memoir voice journal, Creative Konsoles, papjamzzz">
+<meta property="og:title" content="Creative Konsoles — StreamFader, 5i, Kode Keeper, Memoir">
+<meta property="og:description" content="StreamFader blends critic and audience scores with a DJ fader to find exactly what to watch. Plus 5i parallel AI synthesis, Kode Keeper code dashboard, and Memoir voice journaling.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/static/screenshots/sf.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Creative Konsoles — Tools by papjamzzz">
+<meta name="twitter:description" content="StreamFader: blend critic and audience scores to find what to watch. 5i: run one prompt through 5 AI models simultaneously. Kode Keeper: Claude Code mission control.">
+<link rel="icon" href="/static/favicon.png" type="image/png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -18,12 +28,26 @@
     overflow: hidden;
   }
 
-  /* ── FULL VIEWPORT GRID: header strip + 2×2 grid ── */
+  /* Subtle grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,213,149,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,213,149,0.02) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
   .layout {
     display: grid;
-    grid-template-rows: 64px 1fr;
+    grid-template-rows: 58px 1fr;
     height: 100vh;
     width: 100vw;
+    position: relative;
+    z-index: 1;
   }
 
   /* ── HEADER ── */
@@ -31,44 +55,51 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 36px;
+    padding: 0 32px;
     border-bottom: 1px solid #1a1d2e;
-    background: #07080d;
+    background: rgba(7,8,13,0.95);
+    backdrop-filter: blur(8px);
     z-index: 10;
     position: relative;
   }
-
   header::after {
     content: '';
     position: absolute;
     bottom: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0,213,149,0.4), rgba(181,123,238,0.3), transparent);
+    background: linear-gradient(90deg, transparent 0%, rgba(0,213,149,0.45) 35%, rgba(0,200,255,0.3) 55%, rgba(181,123,238,0.35) 75%, transparent 100%);
   }
 
   .brand {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 4px;
+    font-size: 10px;
+    letter-spacing: 5px;
     text-transform: uppercase;
     color: #00d595;
-    opacity: 0.85;
+    opacity: 0.8;
   }
 
   .tagline {
-    font-size: 12px;
-    color: #5a6080;
+    font-size: 11px;
+    color: #4a5070;
     letter-spacing: 0.5px;
+    font-family: 'JetBrains Mono', monospace;
   }
 
-  .gh-link {
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .nav-link {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
     letter-spacing: 2px;
-    color: #5a6080;
+    color: #4a5070;
     text-decoration: none;
+    text-transform: uppercase;
     transition: color 0.2s;
   }
-  .gh-link:hover { color: #e2e6f0; }
+  .nav-link:hover { color: #e2e6f0; }
 
   /* ── 2×2 GRID ── */
   .grid {
@@ -76,7 +107,7 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 1px;
-    background: #1a1d2e;
+    background: #141726;
     overflow: hidden;
   }
 
@@ -88,7 +119,6 @@
     background: #07080d;
   }
 
-  /* Screenshot fills the entire card */
   .card-img {
     position: absolute;
     inset: 0;
@@ -96,44 +126,54 @@
     height: 100%;
     object-fit: cover;
     object-position: top left;
-    transition: transform 0.5s ease, filter 0.5s ease;
-    filter: brightness(0.55) saturate(0.85);
+    transition: transform 0.55s ease, filter 0.55s ease;
+    filter: brightness(0.5) saturate(0.8);
   }
-
   .card:hover .card-img {
-    transform: scale(1.03);
-    filter: brightness(0.25) saturate(0.5);
+    transform: scale(1.04);
+    filter: brightness(0.2) saturate(0.4);
   }
 
-  /* Overlay — visible always, stronger on hover */
   .card-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to top,
-      rgba(7,8,13,0.92) 0%,
-      rgba(7,8,13,0.4) 40%,
-      rgba(7,8,13,0.0) 70%
+      rgba(7,8,13,0.94) 0%,
+      rgba(7,8,13,0.38) 42%,
+      rgba(7,8,13,0.0) 68%
     );
     transition: background 0.4s ease;
   }
+  .card:hover .card-overlay { background: rgba(7,8,13,0.84); }
 
-  .card:hover .card-overlay {
-    background: rgba(7,8,13,0.82);
+  /* corner bracket decoration */
+  .card-corner {
+    position: absolute;
+    top: 10px; left: 10px;
+    width: 12px; height: 12px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-left: 1px solid rgba(255,255,255,0.1);
+    transition: border-color 0.3s, width 0.3s, height 0.3s;
+    z-index: 5;
+  }
+  .card:hover .card-corner {
+    border-color: var(--accent);
+    width: 16px; height: 16px;
+    opacity: 0.6;
   }
 
-  /* Info block — sits at bottom normally, centers on hover */
   .card-info {
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    padding: 28px 32px;
+    padding: 26px 30px;
     transition: all 0.4s ease;
+    z-index: 5;
   }
-
   .card:hover .card-info {
     bottom: 50%;
     transform: translateY(50%);
-    padding: 0 32px;
+    padding: 0 30px;
   }
 
   .card-num {
@@ -141,102 +181,80 @@
     font-size: 9px;
     letter-spacing: 3px;
     color: var(--accent);
-    margin-bottom: 8px;
-    opacity: 0.7;
+    margin-bottom: 7px;
+    opacity: 0.65;
   }
-
   .card-name {
-    font-size: 22px;
+    font-size: 21px;
     font-weight: 600;
     color: #fff;
     letter-spacing: -0.01em;
-    margin-bottom: 6px;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+    margin-bottom: 5px;
+    text-shadow: 0 2px 14px rgba(0,0,0,0.8);
   }
-
   .card-tag {
     font-family: 'JetBrains Mono', monospace;
     font-size: 9px;
     letter-spacing: 3px;
     text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: 0;
-    opacity: 0.85;
-    transition: margin 0.4s;
+    opacity: 0.8;
   }
 
-  /* Description — hidden until hover */
   .card-desc {
-    font-size: 13px;
-    line-height: 1.65;
-    color: rgba(226,230,240,0.7);
-    margin-top: 16px;
-    max-width: 340px;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: rgba(226,230,240,0.65);
+    margin-top: 15px;
+    max-width: 360px;
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(10px);
     transition: opacity 0.35s ease 0.05s, transform 0.35s ease 0.05s;
     pointer-events: none;
   }
-
   .card:hover .card-desc {
     opacity: 1;
     transform: translateY(0);
+    pointer-events: auto;
   }
 
-  .card-desc { pointer-events: none; }
-  .card:hover .card-desc { pointer-events: auto; }
-
-  /* CTA link — hidden until hover */
   .card-cta {
     display: inline-block;
-    margin-top: 20px;
+    margin-top: 18px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
+    font-size: 9px;
     letter-spacing: 2px;
     text-transform: uppercase;
     text-decoration: none;
     color: var(--accent);
     border: 1px solid var(--accent);
-    padding: 8px 18px;
+    padding: 7px 16px;
     border-radius: 2px;
     opacity: 0;
     transform: translateY(6px);
     transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s, background 0.2s;
     pointer-events: none;
   }
+  .card:hover .card-cta { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .card-cta:hover { background: var(--accent); color: #07080d; }
 
-  .card:hover .card-cta {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  .card-cta:hover {
-    background: var(--accent);
-    color: #07080d;
-  }
-
-  /* Always-visible copyable URL */
   .card-url {
     position: absolute;
-    top: 14px;
-    left: 16px;
+    top: 12px; right: 14px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
+    font-size: 9px;
     letter-spacing: 0.5px;
-    color: rgba(255,255,255,0.28);
-    user-select: all;
-    cursor: text;
-    z-index: 10;
+    color: rgba(255,255,255,0.2);
+    z-index: 5;
     transition: color 0.2s;
   }
-  .card:hover .card-url { color: rgba(255,255,255,0.55); }
+  .card:hover .card-url { color: rgba(255,255,255,0.45); }
 
-  /* Accent color per card */
-  .card-sf   { --accent: #00d595; }
-  .card-5i   { --accent: #b57bee; }
-  .card-kk   { --accent: #4fc3f7; }
-  .card-mem  { --accent: #f0b84a; }
+  /* Accent colors */
+  .card-sf  { --accent: #00d595; }
+  .card-5i  { --accent: #b57bee; }
+  .card-kk  { --accent: #4fc3f7; }
+  .card-mem { --accent: #f0b84a; }
 </style>
 </head>
 <body>
@@ -245,65 +263,96 @@
 
   <header>
     <div class="brand">Creative Konsoles</div>
-    <div class="tagline">Built to think, sound, and remember.</div>
-    <a class="gh-link" href="https://github.com/papjamzzz" target="_blank">github.com/papjamzzz →</a>
+    <div class="tagline">built to think, sound, and remember</div>
+    <nav class="nav-links">
+      <a class="nav-link" href="/">← launcher</a>
+      <a class="nav-link" href="https://github.com/papjamzzz" target="_blank" rel="noopener">github →</a>
+    </nav>
   </header>
 
   <div class="grid">
 
     <!-- StreamFader -->
-    <div class="card card-sf" onclick="window.open('http://127.0.0.1:5556','_blank')">
+    <div class="card card-sf" onclick="window.open('http://127.0.0.1:5556','_blank')"
+         itemscope itemtype="https://schema.org/SoftwareApplication">
+      <meta itemprop="name" content="StreamFader">
+      <meta itemprop="description" content="StreamFader is a streaming content ranker that lets you blend critic and audience scores using a DJ-style fader to find the perfect movie or show to watch on Netflix, HBO, and other platforms.">
+      <meta itemprop="applicationCategory" content="Entertainment">
+      <div class="card-corner"></div>
       <div class="card-url">127.0.0.1:5556</div>
-      <img class="card-img" src="/static/screenshots/sf.png" alt="StreamFader">
+      <img class="card-img" src="/static/screenshots/sf.png" alt="StreamFader — streaming content ranker with DJ-style critic and audience score fader">
       <div class="card-overlay"></div>
       <div class="card-info">
         <div class="card-num">01 / 04</div>
-        <div class="card-name">StreamFader</div>
-        <div class="card-tag">Content Discovery</div>
-        <div class="card-desc">A DJ-style fader blends critic and audience scores in real time. Slide toward the crowd or the critics — find exactly what to watch tonight, your way.</div>
-        <a class="card-cta" href="https://github.com/papjamzzz/Stream-Fader" target="_blank">View on GitHub →</a>
+        <div class="card-name" itemprop="name">StreamFader</div>
+        <div class="card-tag">Streaming · Content Discovery</div>
+        <div class="card-desc" itemprop="description">
+          A DJ-style fader blends critic and audience scores in real time. Slide toward the crowd or the critics — find exactly what to watch on Netflix, HBO, and beyond. Your taste, your way.
+        </div>
+        <a class="card-cta" href="https://github.com/papjamzzz/Stream-Fader" target="_blank" rel="noopener">View on GitHub →</a>
       </div>
     </div>
 
     <!-- 5i -->
-    <div class="card card-5i" onclick="window.open('http://127.0.0.1:5562','_blank')">
-      <div class="card-url">127.0.0.1:5562</div>
-      <img class="card-img" src="/static/screenshots/5i.jpg" alt="5i">
+    <div class="card card-5i" onclick="window.open('https://web-production-041d1.up.railway.app','_blank')"
+         itemscope itemtype="https://schema.org/SoftwareApplication">
+      <meta itemprop="name" content="5i — Five Intelligences">
+      <meta itemprop="description" content="5i runs one prompt through GPT, Claude, Gemini, Grok, and Mistral simultaneously, synthesizing their responses into a single weighted verdict. Built for decisions that matter.">
+      <meta itemprop="applicationCategory" content="Productivity">
+      <div class="card-corner"></div>
+      <div class="card-url">railway · live</div>
+      <img class="card-img" src="/static/screenshots/5i.jpg" alt="5i — Five Intelligences parallel AI synthesis engine">
       <div class="card-overlay"></div>
       <div class="card-info">
         <div class="card-num">02 / 04</div>
-        <div class="card-name">5i</div>
+        <div class="card-name" itemprop="name">5i — Five Intelligences</div>
         <div class="card-tag">AI Synthesis Engine</div>
-        <div class="card-desc">One prompt through five AI models simultaneously — GPT, Claude, Gemini, Grok, and Mistral — synthesized into a single, weighted verdict. Built for decisions that matter.</div>
-        <a class="card-cta" href="https://github.com/papjamzzz/5i" target="_blank">View on GitHub →</a>
+        <div class="card-desc" itemprop="description">
+          One prompt through five AI models simultaneously — GPT, Claude, Gemini, Grok, and Mistral — synthesized into a single weighted verdict. Built for decisions that matter.
+        </div>
+        <a class="card-cta" href="https://github.com/papjamzzz/5i" target="_blank" rel="noopener">View on GitHub →</a>
       </div>
     </div>
 
     <!-- Kode Keeper -->
-    <div class="card card-kk" onclick="window.open('http://127.0.0.1:5560','_blank')">
+    <div class="card card-kk" onclick="window.open('http://127.0.0.1:5560','_blank')"
+         itemscope itemtype="https://schema.org/SoftwareApplication">
+      <meta itemprop="name" content="Kode Keeper">
+      <meta itemprop="description" content="Kode Keeper is a hardware synthesizer-style mission control dashboard for Claude Code, featuring an oscilloscope, VU meters, API cost tracker, and git rack.">
+      <meta itemprop="applicationCategory" content="DeveloperApplication">
+      <div class="card-corner"></div>
       <div class="card-url">127.0.0.1:5560</div>
-      <img class="card-img" src="/static/screenshots/kodekeeper.png" alt="Kode Keeper">
+      <img class="card-img" src="/static/screenshots/kodekeeper.png" alt="Kode Keeper — Claude Code mission control dashboard">
       <div class="card-overlay"></div>
       <div class="card-info">
         <div class="card-num">03 / 04</div>
-        <div class="card-name">Kode Keeper</div>
+        <div class="card-name" itemprop="name">Kode Keeper</div>
         <div class="card-tag">Developer Tooling</div>
-        <div class="card-desc">A hardware synthesizer-style mission control dashboard for Claude Code. Oscilloscope, VU meters, cost tracker, and git rack — every session at a glance.</div>
-        <a class="card-cta" href="https://github.com/papjamzzz/kodekeeper" target="_blank">View on GitHub →</a>
+        <div class="card-desc" itemprop="description">
+          A hardware synthesizer-style mission control dashboard for Claude Code. Oscilloscope, VU meters, cost tracker, and git rack — every session visible at a glance.
+        </div>
+        <a class="card-cta" href="https://github.com/papjamzzz/kodekeeper" target="_blank" rel="noopener">View on GitHub →</a>
       </div>
     </div>
 
     <!-- Memoir -->
-    <div class="card card-mem" onclick="window.open('http://127.0.0.1:5565','_blank')">
-      <div class="card-url">127.0.0.1:5565</div>
-      <img class="card-img" src="/static/screenshots/memoir.png" alt="Memoir">
+    <div class="card card-mem" onclick="window.open('http://127.0.0.1:5568','_blank')"
+         itemscope itemtype="https://schema.org/SoftwareApplication">
+      <meta itemprop="name" content="Memoir">
+      <meta itemprop="description" content="Memoir is an AI voice journaling app — speak your memories into a microphone and Claude transcribes them into living chapters. Your story, told in your voice, preserved in code.">
+      <meta itemprop="applicationCategory" content="Lifestyle">
+      <div class="card-corner"></div>
+      <div class="card-url">127.0.0.1:5568</div>
+      <img class="card-img" src="/static/screenshots/memoir.png" alt="Memoir — AI voice journaling app">
       <div class="card-overlay"></div>
       <div class="card-info">
         <div class="card-num">04 / 04</div>
-        <div class="card-name">Memoir</div>
+        <div class="card-name" itemprop="name">Memoir</div>
         <div class="card-tag">Voice · Memory · AI</div>
-        <div class="card-desc">Speak your memories into a microphone. Claude listens, transcribes, and weaves them into structured, living chapters. Your story told in your voice — preserved in code.</div>
-        <a class="card-cta" href="https://github.com/papjamzzz" target="_blank">View on GitHub →</a>
+        <div class="card-desc" itemprop="description">
+          Speak your memories into a microphone. Claude listens, transcribes, and weaves them into structured living chapters. Your story told in your voice — preserved in code.
+        </div>
+        <a class="card-cta" href="https://github.com/papjamzzz/memoir" target="_blank" rel="noopener">View on GitHub →</a>
       </div>
     </div>
 
