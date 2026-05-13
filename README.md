@@ -33,6 +33,9 @@ The central launchpad for the entire Creative Konsoles stack. Start, stop, and m
 | [Kode Keeper](https://github.com/papjamzzz/kodekeeper) | Claude Code mission control | 5560 |
 | [Key Watcher](https://github.com/papjamzzz/key-watcher) | API key health monitor | 5563 |
 | [WithYou](https://github.com/papjamzzz/empathybot) | AI voice companion — 12 support types | 5564 |
+| [Memoir](https://github.com/papjamzzz/memoir) | Voice-to-story AI journaling | 5565 |
+| [Key Watcher](https://github.com/papjamzzz/key-watcher) | API key health monitor | 5563 |
+| [Crypto Grid](https://github.com/papjamzzz/crypto-grid) | Autonomous crypto grid trading bot | 5566 |
 
 ---
 
@@ -65,4 +68,4 @@ Built by [Creative Konsoles](https://creativekonsoles.com) — tools built using
 
 **[creativekonsoles.com](https://creativekonsoles.com)** &nbsp;·&nbsp; support@creativekonsoles.com
 
-<!-- repo maintenance: 2026-04-10 -->
+<!-- repo maintenance: 2026-05-12 -->
