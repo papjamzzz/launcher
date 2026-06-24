@@ -36,6 +36,16 @@ APPS = {
         'type': 'web',
         'match': 'streamfader/app.py',
     },
+    'represented': {
+        'name': 'Represented',
+        'desc': 'AI legal companion for self-represented litigants',
+        'port': 5567,
+        'url': 'http://localhost:5567',
+        'cwd': os.path.expanduser('~/represented'),
+        'cmd': ['python3', 'app.py'],
+        'type': 'web',
+        'match': 'represented/app.py',
+    },
     'empathybot': {
         'name': 'EmpathyBot',
         'desc': 'Empathetic AI chat for grief, illness, and trauma support',

@@ -523,6 +523,27 @@
         </div>
       </div>
 
+      <div class="card" id="card-represented" data-key="represented" data-type="web" data-url="http://localhost:5567">
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-name">Represented</div>
+            <div class="card-desc">AI legal companion for self-represented litigants · incidents · docs · drafting</div>
+          </div>
+          <div class="status-badge stopped" id="badge-represented">
+            <span class="dot"></span><span>Stopped</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="card-type web">Web</span>
+          <span class="card-url">localhost:5567</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-launch" id="launch-represented" onclick="launch('represented')">Launch</button>
+          <button class="btn btn-open" id="open-represented" onclick="openApp('represented')" style="display:none" title="Open in browser">↗</button>
+          <button class="btn btn-stop" onclick="stop('represented')" title="Stop">✕</button>
+        </div>
+      </div>
+
       <div class="card" id="card-empathybot" data-key="empathybot" data-type="web" data-url="http://localhost:5564" style="border-color:rgba(183,148,244,0.2);background:linear-gradient(135deg,#0f1117 60%,rgba(183,148,244,0.05) 100%);">
         <div class="card-header">
           <div class="card-header-inner">
