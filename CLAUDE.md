@@ -29,16 +29,18 @@ make run     # starts on http://127.0.0.1:5554
 ```
 
 ## Apps Registered
-| App | Port | Folder |
-|-----|------|--------|
-| 5i | 5562 | ~/5i |
-| Kalshi Konnektor | 5555 | ~/kalshi-edge |
-| StreamFader | 5556 | ~/streamfader |
-| Track Tracks | 5557 | ~/track_cpu_monitor |
-| DAW Doctor | 5558 | ~/ableton-diagnostics |
-| KK Trader | 5559 | ~/kalshi-trader |
-| Kode Keeper | 5560 | ~/kodekeeper |
-| Pipeline | 5561 | ~/pipeline |
+*Mirrors the `APPS` dict in app.py (the source of truth). Update both together.*
+
+| App | Port | Folder | Type |
+|-----|------|--------|------|
+| 5i (flagship) | 5562 | ~/5i | web |
+| Kalshi Konnektor | 5555 | ~/kalshi-edge | web |
+| StreamFader | 5556 | ~/streamfader | web |
+| Represented | 5567 | ~/represented | web |
+| EmpathyBot | 5564 | ~/empathybot | web |
+| DK Konnektor | 5563 | ~/dk-konnektor | web |
+| TrackTracks | — | ~/track_cpu_monitor | gui (auto-launches with Ableton) |
+| DAW Doctor | — | ~/ableton-diagnostics | cli |
 
 ## Port
 5554
@@ -47,4 +49,4 @@ make run     # starts on http://127.0.0.1:5554
 https://github.com/papjamzzz/launcher — live, public
 
 ---
-*Last updated: 2026-03-23*
+*Last updated: 2026-06-24 — Apps Registered table synced to APPS; Represented added after StreamFader*
