@@ -18,7 +18,6 @@
     overflow: hidden;
   }
 
-  /* ── FULL VIEWPORT GRID: header strip + 2×2 grid ── */
   .layout {
     display: grid;
     grid-template-rows: 64px 1fr;
@@ -26,7 +25,6 @@
     width: 100vw;
   }
 
-  /* ── HEADER ── */
   header {
     display: flex;
     align-items: center;
@@ -70,10 +68,10 @@
   }
   .gh-link:hover { color: #e2e6f0; }
 
-  /* ── 2×2 GRID ── */
+  /* ── 3×2 GRID ── */
   .grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 1px;
     background: #1a1d2e;
@@ -84,56 +82,45 @@
   .card {
     position: relative;
     overflow: hidden;
-    cursor: pointer;
     background: #07080d;
+    padding: 36px 36px 32px;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s ease;
   }
 
-  /* Screenshot fills the entire card */
-  .card-img {
+  .card::before {
+    content: '';
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top left;
-    transition: transform 0.5s ease, filter 0.5s ease;
-    filter: brightness(0.55) saturate(0.85);
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(90deg, var(--accent), transparent) 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
   }
 
-  .card:hover .card-img {
-    transform: scale(1.03);
-    filter: brightness(0.25) saturate(0.5);
+  .card:hover {
+    background: #0c0d14;
   }
 
-  /* Overlay — visible always, stronger on hover */
-  .card-overlay {
+  .card:hover::before {
+    opacity: 1;
+  }
+
+  /* Accent glow on hover */
+  .card::after {
+    content: '';
     position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(7,8,13,0.92) 0%,
-      rgba(7,8,13,0.4) 40%,
-      rgba(7,8,13,0.0) 70%
-    );
-    transition: background 0.4s ease;
+    bottom: 0; left: 0; right: 0; height: 1px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 0 20px var(--accent);
   }
 
-  .card:hover .card-overlay {
-    background: rgba(7,8,13,0.82);
-  }
-
-  /* Info block — sits at bottom normally, centers on hover */
-  .card-info {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    padding: 28px 32px;
-    transition: all 0.4s ease;
-  }
-
-  .card:hover .card-info {
-    bottom: 50%;
-    transform: translateY(50%);
-    padding: 0 32px;
+  .card:hover::after {
+    opacity: 0.6;
   }
 
   .card-num {
@@ -141,17 +128,17 @@
     font-size: 9px;
     letter-spacing: 3px;
     color: var(--accent);
-    margin-bottom: 8px;
-    opacity: 0.7;
+    margin-bottom: 20px;
+    opacity: 0.6;
   }
 
   .card-name {
-    font-size: 22px;
+    font-size: 28px;
     font-weight: 600;
     color: #fff;
-    letter-spacing: -0.01em;
-    margin-bottom: 6px;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    line-height: 1.1;
   }
 
   .card-tag {
@@ -160,82 +147,62 @@
     letter-spacing: 3px;
     text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: 0;
-    opacity: 0.85;
-    transition: margin 0.4s;
+    margin-bottom: 20px;
+    opacity: 0.75;
   }
 
-  /* Description — hidden until hover */
   .card-desc {
     font-size: 13px;
-    line-height: 1.65;
-    color: rgba(226,230,240,0.7);
-    margin-top: 16px;
-    max-width: 340px;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 0.35s ease 0.05s, transform 0.35s ease 0.05s;
-    pointer-events: none;
+    line-height: 1.7;
+    color: rgba(226,230,240,0.62);
+    flex: 1;
   }
 
-  .card:hover .card-desc {
-    opacity: 1;
-    transform: translateY(0);
+  .card-links {
+    display: flex;
+    gap: 10px;
+    margin-top: 28px;
+    flex-wrap: wrap;
   }
 
-  .card-desc { pointer-events: none; }
-  .card:hover .card-desc { pointer-events: auto; }
-
-  /* CTA link — hidden until hover */
-  .card-cta {
-    display: inline-block;
-    margin-top: 20px;
+  .card-link {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
+    font-size: 9px;
     letter-spacing: 2px;
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--accent);
-    border: 1px solid var(--accent);
-    padding: 8px 18px;
+    padding: 7px 14px;
     border-radius: 2px;
-    opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s, background 0.2s;
-    pointer-events: none;
+    border: 1px solid;
+    transition: background 0.2s, color 0.2s;
   }
 
-  .card:hover .card-cta {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
+  .card-link.primary {
+    color: var(--accent);
+    border-color: var(--accent);
   }
 
-  .card-cta:hover {
+  .card-link.primary:hover {
     background: var(--accent);
     color: #07080d;
   }
 
-  /* Always-visible copyable URL */
-  .card-url {
-    position: absolute;
-    top: 14px;
-    left: 16px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.5px;
-    color: rgba(255,255,255,0.28);
-    user-select: all;
-    cursor: text;
-    z-index: 10;
-    transition: color 0.2s;
+  .card-link.secondary {
+    color: rgba(226,230,240,0.35);
+    border-color: rgba(226,230,240,0.12);
   }
-  .card:hover .card-url { color: rgba(255,255,255,0.55); }
+
+  .card-link.secondary:hover {
+    color: rgba(226,230,240,0.7);
+    border-color: rgba(226,230,240,0.3);
+  }
 
   /* Accent color per card */
+  .card-rep  { --accent: #6c8cff; }
   .card-sf   { --accent: #00d595; }
+  .card-eq   { --accent: #57c7b8; }
   .card-5i   { --accent: #b57bee; }
-  .card-kk   { --accent: #4fc3f7; }
+  .card-soma { --accent: #ff7a59; }
   .card-mem  { --accent: #f0b84a; }
 </style>
 </head>
@@ -251,59 +218,72 @@
 
   <div class="grid">
 
+    <!-- Represented -->
+    <div class="card card-rep">
+      <div class="card-num">01 / 06</div>
+      <div class="card-name">Represented</div>
+      <div class="card-tag">AI · Access to Justice</div>
+      <div class="card-desc">An AI legal companion for the ~80% who go to court without a lawyer. Log your situation, let AI organize the evidence, draft court-ready documents, and understand the judge you're facing.</div>
+      <div class="card-links">
+        <a class="card-link primary" href="https://github.com/papjamzzz/represented" target="_blank">GitHub →</a>
+      </div>
+    </div>
+
     <!-- StreamFader -->
-    <div class="card card-sf" onclick="window.open('http://127.0.0.1:5556','_blank')">
-      <div class="card-url">127.0.0.1:5556</div>
-      <img class="card-img" src="/static/screenshots/sf.png" alt="StreamFader">
-      <div class="card-overlay"></div>
-      <div class="card-info">
-        <div class="card-num">01 / 04</div>
-        <div class="card-name">StreamFader</div>
-        <div class="card-tag">Content Discovery</div>
-        <div class="card-desc">A DJ-style fader blends critic and audience scores in real time. Slide toward the crowd or the critics — find exactly what to watch tonight, your way.</div>
-        <a class="card-cta" href="https://github.com/papjamzzz/Stream-Fader" target="_blank">View on GitHub →</a>
+    <div class="card card-sf">
+      <div class="card-num">02 / 06</div>
+      <div class="card-name">StreamFader</div>
+      <div class="card-tag">Content Discovery</div>
+      <div class="card-desc">A DJ-style fader blends critic and audience scores in real time. Slide toward the crowd or the critics — find exactly what to watch tonight, your way.</div>
+      <div class="card-links">
+        <a class="card-link primary" href="https://github.com/papjamzzz/Stream-Fader" target="_blank">GitHub →</a>
+      </div>
+    </div>
+
+    <!-- Equil -->
+    <div class="card card-eq">
+      <div class="card-num">03 / 06</div>
+      <div class="card-name">Equil</div>
+      <div class="card-tag">Biometric · Generative Art</div>
+      <div class="card-desc">Your nervous system, rendered as light. Live biometrics — heart rate, HRV, stillness — drive a generative sacred-geometry mandala and responsive sound. Nothing to read; just be here.</div>
+      <div class="card-links">
+        <a class="card-link primary" href="https://equil.creativekonsoles.com" target="_blank">Live →</a>
+        <a class="card-link secondary" href="https://github.com/papjamzzz/equil" target="_blank">GitHub</a>
       </div>
     </div>
 
     <!-- 5i -->
-    <div class="card card-5i" onclick="window.open('http://127.0.0.1:5562','_blank')">
-      <div class="card-url">127.0.0.1:5562</div>
-      <img class="card-img" src="/static/screenshots/5i.jpg" alt="5i">
-      <div class="card-overlay"></div>
-      <div class="card-info">
-        <div class="card-num">02 / 04</div>
-        <div class="card-name">5i</div>
-        <div class="card-tag">AI Synthesis Engine</div>
-        <div class="card-desc">One prompt through five AI models simultaneously — GPT, Claude, Gemini, Grok, and Mistral — synthesized into a single, weighted verdict. Built for decisions that matter.</div>
-        <a class="card-cta" href="https://github.com/papjamzzz/5i" target="_blank">View on GitHub →</a>
+    <div class="card card-5i">
+      <div class="card-num">04 / 06</div>
+      <div class="card-name">5i</div>
+      <div class="card-tag">AI Synthesis Engine</div>
+      <div class="card-desc">One prompt through five AI models simultaneously — GPT, Claude, Gemini, Grok, and Mistral — synthesized into a single, weighted verdict. Built for decisions that matter.</div>
+      <div class="card-links">
+        <a class="card-link primary" href="https://5i.creativekonsoles.com" target="_blank">Live →</a>
+        <a class="card-link secondary" href="https://github.com/papjamzzz/5i" target="_blank">GitHub</a>
       </div>
     </div>
 
-    <!-- Kode Keeper -->
-    <div class="card card-kk" onclick="window.open('http://127.0.0.1:5560','_blank')">
-      <div class="card-url">127.0.0.1:5560</div>
-      <img class="card-img" src="/static/screenshots/kodekeeper.png" alt="Kode Keeper">
-      <div class="card-overlay"></div>
-      <div class="card-info">
-        <div class="card-num">03 / 04</div>
-        <div class="card-name">Kode Keeper</div>
-        <div class="card-tag">Developer Tooling</div>
-        <div class="card-desc">A hardware synthesizer-style mission control dashboard for Claude Code. Oscilloscope, VU meters, cost tracker, and git rack — every session at a glance.</div>
-        <a class="card-cta" href="https://github.com/papjamzzz/kodekeeper" target="_blank">View on GitHub →</a>
+    <!-- Soma -->
+    <div class="card card-soma">
+      <div class="card-num">05 / 06</div>
+      <div class="card-name">Soma</div>
+      <div class="card-tag">Biometric · 3D Visualization</div>
+      <div class="card-desc">A living 3D heat map of your body. Apple Watch vitals and a lab panel light up a rotatable, glowing figure — your biology, seen at a glance.</div>
+      <div class="card-links">
+        <a class="card-link primary" href="https://github.com/papjamzzz/soma" target="_blank">GitHub →</a>
       </div>
     </div>
 
     <!-- Memoir -->
-    <div class="card card-mem" onclick="window.open('http://127.0.0.1:5565','_blank')">
-      <div class="card-url">127.0.0.1:5565</div>
-      <img class="card-img" src="/static/screenshots/memoir.png" alt="Memoir">
-      <div class="card-overlay"></div>
-      <div class="card-info">
-        <div class="card-num">04 / 04</div>
-        <div class="card-name">Memoir</div>
-        <div class="card-tag">Voice · Memory · AI</div>
-        <div class="card-desc">Speak your memories into a microphone. Claude listens, transcribes, and weaves them into structured, living chapters. Your story told in your voice — preserved in code.</div>
-        <a class="card-cta" href="https://github.com/papjamzzz" target="_blank">View on GitHub →</a>
+    <div class="card card-mem">
+      <div class="card-num">06 / 06</div>
+      <div class="card-name">Memoir</div>
+      <div class="card-tag">Voice · Memory · AI</div>
+      <div class="card-desc">Speak your memories into a microphone. Claude listens, transcribes, and weaves them into structured, living chapters. Your story told in your voice — preserved in code.</div>
+      <div class="card-links">
+        <a class="card-link primary" href="https://memoir.creativekonsoles.com" target="_blank">Live →</a>
+        <a class="card-link secondary" href="https://github.com/papjamzzz/memoir" target="_blank">GitHub</a>
       </div>
     </div>
 
