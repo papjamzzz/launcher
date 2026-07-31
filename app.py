@@ -230,4 +230,11 @@ def stop(key):
 
 if __name__ == '__main__':
     PORT = int(os.getenv("PORT", "5554"))
-    app.run(host='0.0.0.0', port=PORT, debug=False)
+    # Bind to localhost only: /launch and /stop execute subprocesses and kill
+    # local processes with zero authentication. This tool only ever controls
+    # apps on the same Mac it runs on, so there's no valid reason to expose
+    # it beyond localhost — binding 0.0.0.0 would put those endpoints on the
+    # whole LAN for anyone to hit. Set HOST=0.0.0.0 explicitly if you really
+    # need remote access (not recommended without adding auth first).
+    HOST = os.getenv("HOST", "127.0.0.1")
+    app.run(host=HOST, port=PORT, debug=False)
