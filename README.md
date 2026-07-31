@@ -34,7 +34,6 @@ The central launchpad for the entire Creative Konsoles stack. Start, stop, and m
 | [Key Watcher](https://github.com/papjamzzz/key-watcher) | API key health monitor | 5563 |
 | [WithYou](https://github.com/papjamzzz/empathybot) | AI voice companion — 12 support types | 5564 |
 | [Memoir](https://github.com/papjamzzz/memoir) | Voice-to-story AI journaling | 5565 |
-| [Key Watcher](https://github.com/papjamzzz/key-watcher) | API key health monitor | 5563 |
 | [Crypto Grid](https://github.com/papjamzzz/crypto-grid) | Autonomous crypto grid trading bot | 5566 |
 
 ---
